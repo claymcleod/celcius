@@ -12,7 +12,7 @@ git clone https://github.com/claymcleod/celcius.git
 # Install the library
 cd celcius/ && python setup.py install
 
-# Python run the example
+# Run the example
 python examples/iris.py
 ```
 
