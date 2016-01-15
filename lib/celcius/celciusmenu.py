@@ -1,8 +1,6 @@
 import sys,os
 import curses
 
-from scheduler import scheduler
-
 __version__ = '0.1'
 LINE_FEED = 10
 
