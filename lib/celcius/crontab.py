@@ -1,3 +1,6 @@
+def cronify(string):
+    return string.replace('%', '\%')
+
 class crontab(object):
     _minute = '*'
     _hour = '*'
@@ -35,7 +38,7 @@ class crontab(object):
         self._year = str(year)
 
     def build_command(self):
-        return "crontab -l | {{ cat; echo \"{} {} {} {} {} {} {}\"; }} | crontab -".format(str(self._minute), str(self._hour), str(self._day_of_month), str(self._month_of_year), str(self._day_of_week), str(self._year), str(self._command))
+        return cronify("crontab -l | {{ cat; echo \"{} {} {} {} {} {} MAILTO='' {}\"; }} | crontab -".format(str(self._minute), str(self._hour), str(self._day_of_month), str(self._month_of_year), str(self._day_of_week), str(self._year), str(self._command)))
 
     def print_command(self):
         print(self.build_command())

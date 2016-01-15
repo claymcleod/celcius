@@ -36,9 +36,10 @@ if not os.path.isdir(dot_celcius_folder):
         'retrieve_command': retrieve_command
     }
 
-
     config_path = os.path.join(dot_celcius_folder, 'config.json')
     with open(config_path, 'w') as f:
         json.dump(configuration, f, sort_keys=True, indent=4, separators=(',', ': '))
 
-    raw_input('Press [ENTER] to continue...')
+else:
+    print(dot_celcius_folder+" already exists!\n")
+    print("Run 'rm -rf "+dot_celcius_folder+"' and rerun celcius-init!")
