@@ -17,9 +17,9 @@ def build_watch_file_and_append_command(urllocation, filelocation):
     new_filelocation = filelocation.replace(basename, 'new_'+basename)
 
     if config['retrieve_command'] == 'curl':
-        download_cmd = wget.build_download_file_command(urllocation, tmp_filelocation)
-    elif config['retrieve_command'] == 'wget':
         download_cmd = curl.build_download_file_command(urllocation, tmp_filelocation)
+    elif config['retrieve_command'] == 'wget':
+        download_cmd = wget.build_download_file_command(urllocation, tmp_filelocation)
     else:
         print("Invalid retrieve command!")
         sys.exit(1)
