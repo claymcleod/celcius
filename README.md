@@ -21,7 +21,9 @@ python examples/iris.py
 Your output should look similar to the following:
 
 ```
-wget -q -O ~/.celcius/tmp_iris.csv https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data; diff --line-format='%L' ~/.celcius/iris.csv ~/.celcius/tmp_iris.csv > ~/.celcius/new_iris.csv; rm -f ~/.celcius/tmp_iris.csv; rm -f ~/.celcius/iris.csv; mv ~/.celcius/new_iris.csv ~/.celcius/iris.csv
+wget -q -O ~/.celcius/tmp_iris.csv https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data; \\
+diff --line-format='%L' ~/.celcius/iris.csv ~/.celcius/tmp_iris.csv > ~/.celcius/new_iris.csv; \\
+rm -f ~/.celcius/tmp_iris.csv; rm -f ~/.celcius/iris.csv; mv ~/.celcius/new_iris.csv ~/.celcius/iris.csv
 ```
 
 This command can easily be fed into cron or any other scheduling utility to continuously monitor and append new data to the iris.csv file.
