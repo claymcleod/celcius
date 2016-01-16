@@ -1,17 +1,41 @@
+"""All commands offered by Celcius for data pipelining.
+
+This module contains all methods that string together
+UNIX utilities to perform a specific task.
+"""
 import os, sys, json
+from celcius import file_utils
 from celcius.cmds import wget, curl, diff, concat, redirect, rm, mv, touch
 
-def build_watch_file_and_append_command(urllocation, filelocation):
-    home_path = '~'
-    env_home_path = os.environ.get('HOME')
-    if env_home_path != None:
-        home_path = env_home_path
+def build_watch_url_and_append_command(urllocation, filelocation):
+    """Build a command to watch a specific remote url and
+append that data to the file. This method should be used
+when you would like to keep all of the information stored
+on the local machine, but also append the new information
+found at the url.
 
-    dot_celcius_folder = os.path.join(home_path, '.celcius')
-    config_file = os.path.join(dot_celcius_folder, 'config.json')
-    with open(config_file, 'r') as f:
-        config = json.load(f)
+For instance, if the local file is:
 
+```
+foo
+```
+
+And the remote file is:
+
+```
+bar
+```
+
+The resulting file will contain:
+
+```
+foo
+bar
+```
+
+    """
+
+    config = file_utils.get_celcius_config()
     basename = filelocation.split('/')[-1]
     tmp_filelocation = filelocation.replace(basename, 'tmp_'+basename)
     new_filelocation = filelocation.replace(basename, 'new_'+basename)

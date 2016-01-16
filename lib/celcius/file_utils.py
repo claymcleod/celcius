@@ -1,4 +1,15 @@
-import subprocess
+import os, json, subprocess
+
+celcius_config = {}
+home_path = '~'
+env_home_path = os.environ.get('HOME')
+if env_home_path != None:
+    home_path = env_home_path
+
+dot_celcius_folder = os.path.join(home_path, '.celcius')
+config_file = os.path.join(dot_celcius_folder, 'config.json')
+with open(config_file, 'r') as f:
+    celcius_config = json.load(f)
 
 def command_exists(command):
     try:
@@ -11,3 +22,6 @@ def command_exists(command):
         return True
     except:
         return False
+
+def get_celcius_config():
+    return celcius_config
