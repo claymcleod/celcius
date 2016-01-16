@@ -7,7 +7,7 @@
 
 from __future__ import print_function
 
-import os, sys
+import os, sys, random, string
 import argparse
 
 from celcius import celciuscommands, terminal_utils, file_utils
@@ -17,6 +17,7 @@ print()
 
 parser = argparse.ArgumentParser()
 parser.add_argument("task", help="The task to schedule")
+parser.add_argument("-n", "--jobid", default=''.join(random.choice(string.digits) for _ in range(5)), help="Unique job name (if you do not provide one, one will be generated)")
 parser.add_argument("-r", "--remoteurl", default=None, help="For commands that need a remote url operand")
 parser.add_argument("-f", "--localfile", default=None, help="For commands that need a local file operand")
 args = parser.parse_args()
@@ -31,7 +32,7 @@ if args.task == "append-file":
         sys.exit(1)
 
     cmd = celciuscommands.build_watch_url_and_append_command(args.remoteurl, args.localfile)
-    cron_cmd = crontab(cmd)
+    cron_cmd = crontab(cmd, jobid=args.jobid)
     cron_cmd_str = cron_cmd.build_command()
 
     print("The command is:")
