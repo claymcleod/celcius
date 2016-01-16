@@ -9,8 +9,8 @@ To run the example, use the following commands
 # Clone the repo
 git clone https://github.com/claymcleod/celcius.git
 
-# Install the library
-cd celcius/ && python setup.py install
+# Install the library, init-celcius
+cd celcius/ && python setup.py install && celcius-init
 
 # Run the example
 python examples/iris.py
