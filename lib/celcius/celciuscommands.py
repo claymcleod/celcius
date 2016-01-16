@@ -7,7 +7,7 @@ import os, sys, json
 from celcius import file_utils
 from celcius.cmds import wget, curl, diff, concat, redirect, rm, mv, touch
 
-def build_watch_url_and_append_command(urllocation, filelocation):
+def build_append_file_command(urllocation, filelocation):
     """Build a command to watch a specific remote url and
 append that data to the file. This method should be used
 when you would like to keep all of the information stored
@@ -51,5 +51,22 @@ bar
     compare_cmd = concat.build_and_concat_commands([download_cmd, diff_cmd])
     redirect_cmd = redirect.redirect_output(compare_cmd, new_filelocation)
     full_cmd = concat.concat_commands([touch.touch_file(filelocation), redirect_cmd, rm.rm_file(tmp_filelocation), rm.rm_file(filelocation), mv.move_file(new_filelocation, filelocation)])
+
+    return full_cmd
+
+
+def build_replicate_file_command(urllocation, filelocation):
+
+    config = file_utils.get_celcius_config()
+
+    if config['retrieve_command'] == 'curl':
+        download_cmd = curl.build_download_file_command(urllocation, filelocation)
+    elif config['retrieve_command'] == 'wget':
+        download_cmd = wget.build_download_file_command(urllocation, filelocation)
+    else:
+        print("Invalid retrieve command!")
+        sys.exit(1)
+
+    full_cmd = concat.concat_commands([rm.rm_file(filelocation), download_cmd.build_command()])
 
     return full_cmd

@@ -14,15 +14,18 @@ length_of_status_str = 60
 
 def format_status_for_cmd(cmd):
     match = None
-    match = re.search(r'CJOBID=\'\w+\'', cmd)
+    match = re.search(r'CJOBID=\'[\w\s\.]*\'', cmd)
     if match:
-        jobid = re.search(r'\d+', match.group())
+        jobid_regex = re.search(r'\'[\w\s\.]*\'', match.group())
+        jobid = jobid_regex.group().replace('\'', '')
         if jobid:
-            jobstr = "[Job {}]".format(jobid.group())
+            jobstr = "[{}]".format(jobid)
             cutoff_str = "MAILTO=''"
             cutoff_index = cmd.index(cutoff_str) + len(cutoff_str)
             modified_str = cmd[cutoff_index:cutoff_index+length_of_status_str]
             return "{} {}...".format(jobstr.rjust(12, ' '), modified_str)
+
+    return ""
 
 commands = crontab.get_all_celcius_commands()
 for cmd in commands:

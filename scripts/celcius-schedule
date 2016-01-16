@@ -31,7 +31,18 @@ if args.task == "append-file":
         print("append-file task requires --remoteurl and --localfile")
         sys.exit(1)
 
-    cmd = celciuscommands.build_watch_url_and_append_command(args.remoteurl, args.localfile)
+    cmd = celciuscommands.build_append_file_command(args.remoteurl, args.localfile)
+    cron_cmd = crontab(cmd, jobid=args.jobid)
+    cron_cmd_str = cron_cmd.build_command()
+
+    if terminal_utils.confirm_command(cron_cmd_str):
+        os.system(cron_cmd_str)
+elif args.task == "replicate-file":
+    if args.remoteurl == None or args.localfile == None:
+        print("replicate-file task requires --remoteurl and --localfile")
+        sys.exit(1)
+
+    cmd = celciuscommands.build_replicate_file_command(args.remoteurl, args.localfile)
     cron_cmd = crontab(cmd, jobid=args.jobid)
     cron_cmd_str = cron_cmd.build_command()
 
