@@ -10,6 +10,8 @@ from __future__ import print_function
 import os, sys, json
 from celcius import celciusmenu, file_utils
 
+print()
+
 home_path = '~'
 env_home_path = os.environ.get('HOME')
 if env_home_path != None:
@@ -18,18 +20,22 @@ if env_home_path != None:
 dot_celcius_folder = os.path.join(home_path, '.celcius')
 
 if not os.path.isdir(dot_celcius_folder):
-    print('Initializing celcius...')
+    print('[*] Initializing celcius')
     os.makedirs(dot_celcius_folder)
 
-    print('Configuring system...')
+    print('[*] Configuring system')
     retrieve_command = ''
 
+    sys.stdout.write("    [*] Searching for retrieve command...")
     if file_utils.command_exists('curl'):
         retrieve_command = 'curl'
+        print(" found curl!")
     elif file_utils.command_exists('wget'):
         retrieve_command = 'wget'
+        print(" found wget!")
     else:
-        print("ERROR: must have curl or wget installed and on your $PATH!!!")
+        sys.stderr.write("FAILED\n")
+        sys.stderr.flush()
         sys.exit(1)
 
     configuration = {
@@ -41,5 +47,5 @@ if not os.path.isdir(dot_celcius_folder):
         json.dump(configuration, f, sort_keys=True, indent=4, separators=(',', ': '))
 
 else:
-    print(dot_celcius_folder+" already exists!\n")
+    print(dot_celcius_folder+" already exists!")
     print("Run 'rm -rf "+dot_celcius_folder+"' and rerun celcius-init!")

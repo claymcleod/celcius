@@ -10,14 +10,20 @@ from __future__ import print_function
 import os, sys
 import argparse
 
-from celcius import celciuscommands, terminal_utils
+from celcius import celciuscommands, terminal_utils, file_utils
 from celcius.cmds.crontab import crontab
+
+print()
 
 parser = argparse.ArgumentParser()
 parser.add_argument("task", help="The task to schedule")
 parser.add_argument("-r", "--remoteurl", default=None, help="For commands that need a remote url operand")
 parser.add_argument("-f", "--localfile", default=None, help="For commands that need a local file operand")
 args = parser.parse_args()
+
+if file_utils.get_celcius_config() == None:
+    print("You must first run celcius-init")
+    sys.exit(1)
 
 if args.task == "append-file":
     if args.remoteurl == None or args.localfile == None:
@@ -28,7 +34,6 @@ if args.task == "append-file":
     cron_cmd = crontab(cmd)
     cron_cmd_str = cron_cmd.build_command()
 
-    print()
     print("The command is:")
     print()
     print(cron_cmd_str)
