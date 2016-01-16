@@ -1,5 +1,5 @@
 import os, sys, json
-from celcius import wget, curl, diff, concat, redirect, rm, mv, touch
+from celcius.cmds import wget, curl, diff, concat, redirect, rm, mv, touch
 
 def build_watch_file_and_append_command(urllocation, filelocation):
     home_path = '~'
