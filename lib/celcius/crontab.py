@@ -7,7 +7,6 @@ class crontab(object):
     _day_of_month = '*'
     _month_of_year = '*'
     _day_of_week = '*'
-    _year = '*'
     _command = ''
 
     def __init__(self, command):
@@ -33,12 +32,8 @@ class crontab(object):
         assert isinstance(day_of_week, int)
         self._day_of_week = str(day_of_week)
 
-    def year(self, year):
-        assert isinstance(year, int)
-        self._year = str(year)
-
     def build_command(self):
-        return cronify("crontab -l | {{ cat; echo \"{} {} {} {} {} {} MAILTO='' {}\"; }} | crontab -".format(str(self._minute), str(self._hour), str(self._day_of_month), str(self._month_of_year), str(self._day_of_week), str(self._year), str(self._command)))
+        return cronify("crontab -l | {{ cat; echo \"{} {} {} {} {} MAILTO='' {}\"; }} | crontab -".format(str(self._minute), str(self._hour), str(self._day_of_month), str(self._month_of_year), str(self._day_of_week), str(self._command)))
 
     def print_command(self):
         print(self.build_command())

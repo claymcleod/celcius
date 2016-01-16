@@ -1,5 +1,5 @@
 import os, sys, json
-from celcius import wget, curl, diff, concat, redirect, rm, mv
+from celcius import wget, curl, diff, concat, redirect, rm, mv, touch
 
 def build_watch_file_and_append_command(urllocation, filelocation):
     home_path = '~'
@@ -27,6 +27,6 @@ def build_watch_file_and_append_command(urllocation, filelocation):
     diff_cmd = diff.build_append_file_command(filelocation, tmp_filelocation)
     compare_cmd = concat.build_and_concat_commands([download_cmd, diff_cmd])
     redirect_cmd = redirect.redirect_output(compare_cmd, new_filelocation)
-    full_cmd = concat.concat_commands([redirect_cmd, rm.rm_file(tmp_filelocation), rm.rm_file(filelocation), mv.move_file(new_filelocation, filelocation)])
+    full_cmd = concat.concat_commands([touch.touch_file(filelocation), redirect_cmd, rm.rm_file(tmp_filelocation), rm.rm_file(filelocation), mv.move_file(new_filelocation, filelocation)])
 
     return full_cmd
