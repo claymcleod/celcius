@@ -32,7 +32,6 @@ The resulting file will contain:
 foo
 bar
 ```
-
     """
 
     config = file_utils.get_celcius_config()

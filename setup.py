@@ -10,6 +10,6 @@ setup(name='celcius',
       author_email='clay.l.mcleod@gmail.com',
       package_dir={ '': 'lib' },
       packages=find_packages('lib'),
-      scripts=['scripts/celcius', 'scripts/celcius-init'],
+      scripts=['scripts/celcius', 'scripts/celcius-init', 'scripts/celcius-schedule'],
       install_requires=['']
      )

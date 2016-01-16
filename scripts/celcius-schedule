@@ -1,0 +1,41 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+# Copyright © 2016 Clay L. McLeod <clay.l.mcleod@gmail.com>
+#
+# Distributed under terms of the MIT license.
+
+from __future__ import print_function
+
+import os, sys
+import argparse
+
+from celcius import celciuscommands, terminal_utils
+from celcius.cmds.crontab import crontab
+
+parser = argparse.ArgumentParser()
+parser.add_argument("task", help="The task to schedule")
+parser.add_argument("-r", "--remoteurl", default=None, help="For commands that need a remote url operand")
+parser.add_argument("-f", "--localfile", default=None, help="For commands that need a local file operand")
+args = parser.parse_args()
+
+if args.task == "append-file":
+    if args.remoteurl == None or args.localfile == None:
+        print("append-file task requires --remoteurl and --localfile")
+        sys.exit(1)
+
+    cmd = celciuscommands.build_watch_url_and_append_command(args.remoteurl, args.localfile)
+    cron_cmd = crontab(cmd)
+    cron_cmd_str = cron_cmd.build_command()
+
+    print()
+    print("The command is:")
+    print()
+    print(cron_cmd_str)
+    print()
+    confirm = terminal_utils.confirm() 
+    if confirm:
+        os.system(cron_cmd_str)
+else:
+    print("Unknown task: {}".format(args.task))
+    sys.exit(1)
