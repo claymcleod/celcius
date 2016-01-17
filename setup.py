@@ -10,6 +10,8 @@ setup(name='celcius',
       author_email='clay.l.mcleod@gmail.com',
       package_dir={ '': 'lib' },
       packages=find_packages('lib'),
+      url="https://github.com/claymcleod/celcius/",
+      download_url="https://github.com/claymcleod/celcius/tarball/0.0.1",
       scripts=['scripts/celcius-init', 'scripts/celcius-schedule', 'scripts/celcius-unschedule', 'scripts/celcius-status'],
       install_requires=['']
      )
