@@ -9,8 +9,8 @@ from __future__ import print_function
 
 import os, sys, argparse
 
-from celcius import terminal_utils, file_utils
-from celcius.cmds import crontab
+from celcius.utils import terminal_utils, file_utils
+from celcius.utils import cron_utils
 
 parser = argparse.ArgumentParser(description="Utility for unscheduling celcius data pipelining tasks")
 parser.add_argument("jobid", help="The jobid to remove from cron")
@@ -20,7 +20,7 @@ if file_utils.get_celcius_config() == None:
     print("You must first run celcius-init")
     sys.exit(1)
 
-tasks = crontab.get_all_celcius_commands()
+tasks = cron_utils.get_all_celcius_commands()
 string_of_crontabs = ""
 
 task_found = False

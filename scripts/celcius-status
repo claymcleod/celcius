@@ -8,7 +8,7 @@
 from __future__ import print_function
 
 import re
-from celcius.unix.commands import crontab
+from celcius.utils import cron_utils
 
 length_of_status_str = 60
 
@@ -27,7 +27,7 @@ def format_status_for_cmd(cmd):
 
     return ""
 
-commands = crontab.get_all_celcius_commands()
+commands = cron_utils.get_all_celcius_commands()
 if len(commands) > 0:
     print("The following celcius commands are present:")
     print()
