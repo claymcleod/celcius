@@ -15,8 +15,8 @@ from celcius.cmds.crontab import crontab
 
 print()
 
-parser = argparse.ArgumentParser()
-parser.add_argument("task", help="The task to schedule")
+parser = argparse.ArgumentParser(description="Utility for scheduling celcius data pipelining tasks")
+parser.add_argument("task", help="The task to schedule. Possible arguments: ['append-file', 'replicate-file']")
 parser.add_argument("-n", "--jobid", default=''.join(random.choice(string.digits) for _ in range(5)), help="Unique job name (if you do not provide one, one will be generated)")
 parser.add_argument("-r", "--remoteurl", default=None, help="For commands that need a remote url operand")
 parser.add_argument("-f", "--localfile", default=None, help="For commands that need a local file operand")
