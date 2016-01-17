@@ -1,17 +1,9 @@
-# -*- coding: utf-8 -*-
-#
-# Copyright © 2016 Clay L. McLeod <clay.l.mcleod@gmail.com>
-#
-# Distributed under terms of the MIT license.
+class wget(object):
 
-from __future__ import print_function
-
-class curl(object):
-
-    options = []
-    basecommand = 'curl'
+    basecommand = 'wget'
 
     def __init__(self, urllocation=''):
+        self.options = []
         self.urllocation = urllocation
 
     def add_option(self, option):
@@ -27,16 +19,15 @@ class curl(object):
         command_bits.append(self.urllocation)
         return ' '.join(command_bits)
 
-    def print_command(self):
-        print(self.build_command())
-
 def build_download_file_command(urllocation, outputlocation):
-    curl_cmd = curl(urllocation)
-    curl_cmd.add_option('-s')
-    curl_cmd.add_option('-o {}'.format(outputlocation))
-    return curl_cmd
+    wget_cmd = wget(urllocation)
+    wget_cmd.add_option('-q')
+    wget_cmd.add_option('-O {}'.format(outputlocation))
+    return wget_cmd
 
 def build_file_to_stdout_command(urllocation):
-    curl_cmd = curl(urllocation)
-    curl_cmd.add_option('-s')
-    return curl_cmd
+    wget_cmd = wget(urllocation)
+    wget_cmd.add_option('-S')
+    wget_cmd.add_option('-q')
+    wget_cmd.add_option('-O -')
+    return wget_cmd

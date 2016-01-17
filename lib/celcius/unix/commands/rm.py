@@ -1,17 +1,10 @@
-# -*- coding: utf-8 -*-
-#
-# Copyright © 2016 Clay L. McLeod <clay.l.mcleod@gmail.com>
-#
-# Distributed under terms of the MIT license.
+class rm(object):
+    """Class for wrapping UNIX 'rm' command"""
 
-from __future__ import print_function
-
-class cat(object):
-
-    options = []
-    basecommand = 'cat'
+    basecommand = 'rm'
 
     def __init__(self, filename=''):
+        self.options = []
         self.filename = filename
 
     def add_option(self, option):
@@ -27,5 +20,7 @@ class cat(object):
         command_bits.append(self.filename)
         return ' '.join(command_bits)
 
-    def print_command(self):
-        print(self.build_command())
+def build_force_rm_command(filename):
+    cmd = rm(filename)
+    cmd.add_option("-f")
+    return cmd

@@ -1,9 +1,28 @@
-# celcius
-Data pipelining using UNIX microservices: proof of concept
+This repository contains a proof of concept for data pipelining using only UNIX microservices. A full writeup for the motivation and discussion of this technique can be found [here](https://medium.com/@claymcleod_/data-pipelining-using-unix-microservices-9551b1f4ae50).
 
-### Running the example
+## Current capabililties
 
-To run the example, use the following commands
+Currently, celcius contains wrappers for many UNIX command line tools as well as mechanisms for provisioning/removing those workflows as cronjobs. Feel free to use it as a command line interface for scheduling celcius jobs OR in your own Python scripts to wrap UNIX commands. 
+
+## Command line options available
+
+Check the 'scripts' folder for a full list of commands available:
+
+```
+# Configure celcius by evaluating which tools are available
+celcius-init 
+
+# Schedule celcius jobs using cron
+celcius-schedule 
+
+# Remove celcius jobs from cron
+celcius-unschedule
+
+# Check the status of celcius jobs stored in cron
+celcius-status
+```
+
+## Example
 
 ```
 # Clone the repo
@@ -12,24 +31,9 @@ git clone https://github.com/claymcleod/celcius.git
 # Install the library, init-celcius
 cd celcius/ && python setup.py install && celcius-init
 
-# Run the example
-python examples/iris.py
+# Give the examples permissions to run
+chmod +x ./examples/iris.sh
+
+# Run the iris example
+./examples/iris.sh
 ```
-
-### Output
-
-Your output should look similar to the following:
-
-```
-wget -q -O ~/.celcius/tmp_iris.csv https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data; \
-diff --line-format='%L' ~/.celcius/iris.csv ~/.celcius/tmp_iris.csv > ~/.celcius/new_iris.csv; \
-rm -f ~/.celcius/tmp_iris.csv; rm -f ~/.celcius/iris.csv; mv ~/.celcius/new_iris.csv ~/.celcius/iris.csv
-```
-
-This command can easily be fed into cron or any other scheduling utility to continuously monitor and append new data to the iris.csv file.
-
-To test the functionality:
-
-1. Run this command once to download iris.csv. 
-2. Edit the iris.csv file by adding or removing any number of examples that you like (simulating different data contained locally).
-3. Rerun the command and see that the new data is now concatenated with the old data.

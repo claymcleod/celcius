@@ -23,10 +23,15 @@ def format_status_for_cmd(cmd):
             cutoff_str = "MAILTO=''"
             cutoff_index = cmd.index(cutoff_str) + len(cutoff_str)
             modified_str = cmd[cutoff_index:cutoff_index+length_of_status_str]
-            return "{} {}...".format(jobstr.rjust(12, ' '), modified_str)
+            return "{} {}...".format(jobstr.rjust(6, ' '), modified_str)
 
     return ""
 
 commands = crontab.get_all_celcius_commands()
-for cmd in commands:
-    print(format_status_for_cmd(cmd))
+if len(commands) > 0:
+    print("The following celcius commands are present:")
+    print()
+    for cmd in commands:
+        print(format_status_for_cmd(cmd))
+else:
+    print("No celcius commands are present!")

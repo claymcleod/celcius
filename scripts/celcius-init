@@ -8,16 +8,9 @@
 from __future__ import print_function
 
 import os, sys, json
-from celcius import celciusmenu, file_utils
+from celcius.utils import file_utils
 
-print()
-
-home_path = '~'
-env_home_path = os.environ.get('HOME')
-if env_home_path != None:
-    home_path = env_home_path
-
-dot_celcius_folder = os.path.join(home_path, '.celcius')
+dot_celcius_folder = file_utils.get_dot_celcius_path()
 
 if not os.path.isdir(dot_celcius_folder):
     os.makedirs(dot_celcius_folder)
@@ -44,7 +37,6 @@ if not os.path.isdir(dot_celcius_folder):
     config_path = os.path.join(dot_celcius_folder, 'config.json')
     with open(config_path, 'w') as f:
         json.dump(configuration, f, sort_keys=True, indent=4, separators=(',', ': '))
-
 else:
     print(dot_celcius_folder+" already exists!")
     print("Run 'rm -rf "+dot_celcius_folder+"' and rerun celcius-init!")

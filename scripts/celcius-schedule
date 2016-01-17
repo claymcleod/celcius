@@ -10,10 +10,9 @@ from __future__ import print_function
 import os, sys, random, string
 import argparse
 
-from celcius import celciuscommands, terminal_utils, file_utils
-from celcius.cmds.crontab import crontab
-
-print()
+from celcius import tasks
+from celcius.utils import terminal_utils, file_utils
+from celcius.unix.commands.crontab import crontab
 
 parser = argparse.ArgumentParser(description="Utility for scheduling celcius data pipelining tasks")
 parser.add_argument("task", help="The task to schedule. Possible arguments: ['append-file', 'replicate-file']")
@@ -31,7 +30,7 @@ if args.task == "append-file":
         print("append-file task requires --remoteurl and --localfile")
         sys.exit(1)
 
-    cmd = celciuscommands.build_append_file_command(args.remoteurl, args.localfile)
+    cmd = tasks.build_append_file_task(args.remoteurl, args.localfile)
     cron_cmd = crontab(cmd, jobid=args.jobid)
     cron_cmd_str = cron_cmd.build_command()
 
@@ -42,7 +41,7 @@ elif args.task == "replicate-file":
         print("replicate-file task requires --remoteurl and --localfile")
         sys.exit(1)
 
-    cmd = celciuscommands.build_replicate_file_command(args.remoteurl, args.localfile)
+    cmd = tasks.build_replicate_file_task(args.remoteurl, args.localfile)
     cron_cmd = crontab(cmd, jobid=args.jobid)
     cron_cmd_str = cron_cmd.build_command()
 

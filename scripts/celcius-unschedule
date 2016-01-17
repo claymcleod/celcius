@@ -7,12 +7,10 @@
 
 from __future__ import print_function
 
-import os, argparse
+import os, sys, argparse
 
 from celcius import terminal_utils, file_utils
 from celcius.cmds import crontab
-
-print()
 
 parser = argparse.ArgumentParser(description="Utility for unscheduling celcius data pipelining tasks")
 parser.add_argument("jobid", help="The jobid to remove from cron")
@@ -25,9 +23,16 @@ if file_utils.get_celcius_config() == None:
 tasks = crontab.get_all_celcius_commands()
 string_of_crontabs = ""
 
+task_found = False
 for task in tasks:
     if not "CJOBID=\'{}\'".format(args.jobid) in task:
         string_of_crontabs = "{}{}".format(string_of_crontabs, task)
+    else:
+        task_found = True
+
+if not task_found:
+    print("Task with jobid '{}' was not found!".format(args.jobid))
+    sys.exit(1)
 
 cmd = "echo \"{}\" | crontab -".format(string_of_crontabs)
 if terminal_utils.confirm_command(cmd):

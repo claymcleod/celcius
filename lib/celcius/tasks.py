@@ -1,14 +1,15 @@
-"""All commands offered by Celcius for data pipelining.
+"""All tasks offered by Celcius for data pipelining.
 
 This module contains all methods that string together
 UNIX utilities to perform a specific task.
 """
 import os, sys, json
-from celcius import file_utils
-from celcius.cmds import wget, curl, diff, concat, redirect, rm, mv, touch
+from celcius.utils import file_utils
+from celcius.unix.commands import wget, curl, diff, rm, mv, touch
+from celcius.unix.operations import concat, redirect
 
-def build_append_file_command(urllocation, filelocation):
-    """Build a command to watch a specific remote url and
+def build_append_file_task(urllocation, filelocation):
+    """Build a task to watch a specific remote url and
 append that data to the file. This method should be used
 when you would like to keep all of the information stored
 on the local machine, but also append the new information
@@ -50,12 +51,12 @@ bar
     diff_cmd = diff.build_append_file_command(filelocation, tmp_filelocation)
     compare_cmd = concat.build_and_concat_commands([download_cmd, diff_cmd])
     redirect_cmd = redirect.redirect_output(compare_cmd, new_filelocation)
-    full_cmd = concat.concat_commands([touch.touch_file(filelocation), redirect_cmd, rm.rm_file(tmp_filelocation), rm.rm_file(filelocation), mv.move_file(new_filelocation, filelocation)])
+    full_cmd = concat.concat_commands([touch.touch(filelocation).build_command(), redirect_cmd, rm.build_force_rm_command(tmp_filelocation).build_command(), rm.build_force_rm_command(filelocation).build_command(), mv.mv(new_filelocation, filelocation).build_command()])
 
     return full_cmd
 
 
-def build_replicate_file_command(urllocation, filelocation):
+def build_replicate_file_task(urllocation, filelocation):
 
     config = file_utils.get_celcius_config()
 
@@ -67,6 +68,6 @@ def build_replicate_file_command(urllocation, filelocation):
         print("Invalid retrieve command!")
         sys.exit(1)
 
-    full_cmd = concat.concat_commands([rm.rm_file(filelocation), download_cmd.build_command()])
+    full_cmd = concat.concat_commands([rm.rm(filelocation).build_command(), download_cmd.build_command()])
 
     return full_cmd
