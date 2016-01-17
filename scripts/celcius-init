@@ -20,13 +20,12 @@ if env_home_path != None:
 dot_celcius_folder = os.path.join(home_path, '.celcius')
 
 if not os.path.isdir(dot_celcius_folder):
-    print('[*] Initializing celcius')
     os.makedirs(dot_celcius_folder)
 
-    print('[*] Configuring system')
+    print('Configuring system')
     retrieve_command = ''
 
-    sys.stdout.write("    [*] Searching for retrieve command...")
+    sys.stdout.write("-- Searching for retrieve command...")
     if file_utils.command_exists('curl'):
         retrieve_command = 'curl'
         print(" found curl!")
